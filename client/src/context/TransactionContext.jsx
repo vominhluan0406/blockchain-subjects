@@ -113,7 +113,7 @@ export const TransactionsProvider = ({ children }) => {
 
       setCurrentAccount(accounts[0])
       setCurrentBalance(balance)
-      window.location.reload()
+      window.location.reload(false)
     } catch (error) {
       console.log(error)
 

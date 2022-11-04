@@ -18,7 +18,7 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
       min-w-full
       flex-col p-3 rounded-md hover:shadow-2xl"
     >
-      <div className="flex flex-col items-center w-full mt-3">
+      <div className="flex flex-col items-center w-full blue-glassmorphism">
         <div className="display-flex justify-start w-full mb-6 p-2">
           <a href={`https://goerli.etherscan.io/address/${addressFrom}`} target="_blank" rel="noreferrer">
             <p className="text-white text-base">From: {shortenAddress(addressFrom)}</p>
@@ -64,7 +64,7 @@ const Transactions = () => {
         )}
 
         <div className="flex flex-wrap justify-center items-center mt-10">
-          {[...dummyData, ...transactions].reverse().map((transaction, i) => (
+          {[transactions].reverse().map((transaction, i) => (
             <TransactionsCard key={i} {...transaction} />
           ))}
         </div>

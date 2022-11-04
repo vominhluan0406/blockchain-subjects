@@ -15,7 +15,8 @@
     "postcss": "^8.3.11",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.4.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.0",
@@ -25,8 +26,8 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "react-error-overlay": "6.0.9",
     "tailwindcss": "^2.2.19",
-    "vite": "^2.6.4",
-    "react-error-overlay": "6.0.9"
+    "vite": "^2.6.4"
   }
 }
