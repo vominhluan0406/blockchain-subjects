@@ -40,12 +40,22 @@ export const TransactionsProvider = ({ children }) => {
   const getAllTransactions = async () => {
     try {
       if (ethereum) {
+        let account = ''
+        const accounts = await ethereum.request({ method: 'eth_accounts' })
+        if (accounts.length) {
+          account = accounts[0]
+        }
         const transactionsContract = createEthereumContract()
 
         const availableTransactions = await transactionsContract.getAllTransactions()
 
-        const structuredTransactions = availableTransactions.map(
-          (transaction) => ({
+        const structuredTransactions = availableTransactions
+          .filter(
+            (transaction) =>
+              transaction.sender.toLocaleLowerCase() ===
+              account.toLocaleLowerCase(),
+          )
+          .map((transaction) => ({
             addressTo: transaction.receiver,
             addressFrom: transaction.sender,
             timestamp: new Date(
@@ -54,10 +64,7 @@ export const TransactionsProvider = ({ children }) => {
             message: transaction.message,
             keyword: transaction.keyword,
             amount: parseInt(transaction.amount._hex) / 10 ** 18,
-          }),
-        )
-
-        console.log("structuredTransactions",structuredTransactions)
+          }))
 
         setTransactions(structuredTransactions)
       } else {
@@ -69,6 +76,7 @@ export const TransactionsProvider = ({ children }) => {
   }
 
   const checkIfWalletIsConnect = async () => {
+    console.log('checkIfWalletIsConnect')
     try {
       if (!ethereum) return alert('Please install MetaMask.')
 
@@ -78,6 +86,7 @@ export const TransactionsProvider = ({ children }) => {
         setCurrentAccount(accounts[0])
 
         getAllTransactions()
+        getBalance()
       } else {
         console.log('No accounts found')
       }
@@ -104,16 +113,9 @@ export const TransactionsProvider = ({ children }) => {
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert('Please install MetaMask.')
-
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-      const balance = await ethereum.request({
-        method: 'eth_getBalance',
-        param: [address, 'latest'],
-      })
-
       setCurrentAccount(accounts[0])
-      setCurrentBalance(balance)
-      window.location.reload(false)
+      window.location.reload()
     } catch (error) {
       console.log(error)
 
@@ -167,16 +169,20 @@ export const TransactionsProvider = ({ children }) => {
     }
   }
 
-  // const getBalance = async (address) => {
-  //   const balance = await ethereum.request({
-  //     method: 'eth_getBalance',
-  //     param: [address, 'latest'],
-  //   })
-
-  //   console.log('Balance_______', balance)
-
-  //   setCurrentAccount(accounts[0])
-  // }
+  const getBalance = async () => {
+    try {
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+        const ethbalance = await provider.getBalance(accounts[0])
+        console.log('getBalance', ethers.utils.formatEther(ethbalance))
+        setCurrentBalance(ethers.utils.formatEther(ethbalance))
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('No ethereum object')
+    }
+  }
 
   useEffect(() => {
     checkIfWalletIsConnect()

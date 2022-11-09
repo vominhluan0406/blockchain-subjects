@@ -8,9 +8,6 @@ import { shortenAddress } from "../utils/shortenAddress";
 
 const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
   const gifUrl = useFetch({ keyword });
-
-  console.log("TransactionsCard",addressFrom,addressTo,message)
-
   return (
     <div className="bg-[#181918] m-4 flex flex-1
       2xl:min-w-[450px]
@@ -51,9 +48,6 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
 
 const Transactions = () => {
   const { transactions, currentAccount } = useContext(TransactionContext);
-
-  console.log("Transactions:" , transactions)
-
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
       <div className="flex flex-col md:p-12 py-12 px-4">
