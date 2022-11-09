@@ -57,7 +57,7 @@ export const TransactionsProvider = ({ children }) => {
           }),
         )
 
-        console.log(structuredTransactions)
+        console.log("structuredTransactions",structuredTransactions)
 
         setTransactions(structuredTransactions)
       } else {
@@ -167,22 +167,21 @@ export const TransactionsProvider = ({ children }) => {
     }
   }
 
-  const getBalance = async () => {
-    const balance = await ethereum.request({
-      method: 'eth_getBalance',
-      param: [address, 'latest'],
-    })
+  // const getBalance = async (address) => {
+  //   const balance = await ethereum.request({
+  //     method: 'eth_getBalance',
+  //     param: [address, 'latest'],
+  //   })
 
-    console.log('Balance_______', balance)
+  //   console.log('Balance_______', balance)
 
-    setCurrentAccount(accounts[0])
-  }
+  //   setCurrentAccount(accounts[0])
+  // }
 
   useEffect(() => {
     checkIfWalletIsConnect()
     checkIfTransactionsExists()
-    getBalance()
-  }, [transactionCount])
+  }, [])
 
   return (
     <TransactionContext.Provider
